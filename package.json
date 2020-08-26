@@ -1,0 +1,31 @@
+{
+  "name": "cc-bot-v2",
+  "version": "1.0.0",
+  "description": "Version 2 using ES6, Babel, Node",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lumsdent/CrazyCats-Bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lumsdent/CrazyCats-Bot/issues"
+  },
+  "homepage": "https://github.com/lumsdent/CrazyCats-Bot#readme",
+  "keywords": [],
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "mongodb": "^3.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.0"
+  },
+  "type": "module"
+}
