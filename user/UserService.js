@@ -51,15 +51,12 @@ export async function getProfile(discordId) {
   }
 }
 
-export async function updateXP(discordId) {
+export async function fight(discordId) {
   const gainedXp = getRandomInt(10);
   console.log(`${gainedXp} gained`);
   const { xp: currentXp, level: level } = await getProfile(discordId);
-  console.log(level);
   const beastArr = beastiary[level];
-  console.log(beastArr);
   const randomBeast = beastArr[getRandomFromArr(beastArr)];
-  console.log(randomBeast);
   const client = getMDBClient();
   const newXp = { xp: currentXp + gainedXp };
   try {
