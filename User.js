@@ -6,6 +6,7 @@ export default class User {
     this.level = 1;
     this.xp = 0;
     this.gold = 0;
+    this.backpack = {}
     //inventory
     //equipment
     //class
@@ -16,3 +17,5 @@ export default class User {
     //other stuff...
   }
 }
+
+//TODO Find home for this and refactor where required
