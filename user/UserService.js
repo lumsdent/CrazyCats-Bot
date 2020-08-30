@@ -51,6 +51,26 @@ export async function getProfile(discordId) {
   }
 }
 
+export async function getBackPack(discordId) {
+  const client = getMDBClient();
+  try {
+    await client.connect();
+
+    const result = await client
+      .db("cc_sandbox")
+      .collection("backpacks")
+      .findOne({ discordId: discordId });
+    if (result) {
+      console.log(result);
+    }
+    return result;
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+}
+
 export async function fight(discordId) {
   const gainedXp = getRandomInt(10);
   console.log(`${gainedXp} gained`);
