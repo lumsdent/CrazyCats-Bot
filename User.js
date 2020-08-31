@@ -6,8 +6,8 @@ export default class User {
     this.level = 1;
     this.xp = 0;
     this.gold = 0;
-    this.backpack = {}
-    //inventory
+    this.backpack = {};
+    this.health = 100;
     //equipment
     //class
     //race
