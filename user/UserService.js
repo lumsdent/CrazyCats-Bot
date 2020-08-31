@@ -1,15 +1,15 @@
-import mongodb from "mongodb";
-const { MongoClient } = mongodb;
+
+
 
 import beastiary from "../beastiary.js";
-import config from "../config/config.js";
+import util from "../util.js";
 
 export async function createProfile(user) {
   //if profile exists, exit
   const existingUser = await getProfile(user.discordId);
   if (existingUser) return { existingUser };
 
-  const client = getMDBClient();
+  const client = util.getMDBClient();
   try {
     await client.connect();
 
@@ -30,7 +30,7 @@ export async function createProfile(user) {
 }
 
 export async function getProfile(discordId) {
-  const client = getMDBClient();
+  const client = util.getMDBClient();
   try {
     await client.connect();
 
@@ -52,7 +52,7 @@ export async function getProfile(discordId) {
 }
 
 export async function getBackPack(discordId) {
-  const client = getMDBClient();
+  const client = util.getMDBClient();
   try {
     await client.connect();
 
@@ -72,12 +72,12 @@ export async function getBackPack(discordId) {
 }
 
 export async function fight(discordId) {
-  const gainedXp = getRandomInt(10);
+  const gainedXp = util.getRandomInt(10);
   console.log(`${gainedXp} gained`);
   const { xp: currentXp, level: level } = await getProfile(discordId);
   const beastArr = beastiary[level];
-  const randomBeast = beastArr[getRandomFromArr(beastArr)];
-  const client = getMDBClient();
+  const randomBeast = beastArr[util.getRandomFromArr(beastArr)];
+  const client = util.getMDBClient();
   const newXp = { xp: currentXp + gainedXp };
   try {
     await client.connect();
@@ -91,17 +91,4 @@ export async function fight(discordId) {
   } finally {
     await client.close();
   }
-}
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max) + 1);
-}
-
-function getRandomFromArr(arr) {
-  return Math.floor(Math.random() * arr.length);
-}
-function getMDBClient() {
-  return new MongoClient(config.dbConnectionString, {
-    useUnifiedTopology: true,
-  });
 }

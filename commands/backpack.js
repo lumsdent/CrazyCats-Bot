@@ -21,11 +21,6 @@ export default {
   },
 };
 
-// { name: 'Regular field title', value: 'Some value here' },
-// 		{ name: '\u200B', value: '\u200B' },
-// 		{ name: 'Inline field title', value: 'Some value here', inline: true },
-// 		{ name: 'Inline field title', value: 'Some value here', inline: true },
-
 function embed(message, data) {
   return (
     new MessageEmbed()
@@ -33,8 +28,6 @@ function embed(message, data) {
       .setTitle(`${message.author.username}'s Backpack`)
       .setThumbnail(message.author.avatarURL)
       .addFields(data)
-      // .addField('Inline field title', 'Some value here', true)
-      // .setImage('https://i.imgur.com/wSTFkRM.png')
       .setTimestamp()
       .setFooter("created by psychotikkittens")
   );

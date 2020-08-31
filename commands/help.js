@@ -42,3 +42,4 @@ export default {
     message.channel.send(data, { split: true });
   },
 };
+
