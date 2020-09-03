@@ -18,6 +18,7 @@
   "homepage": "https://github.com/lumsdent/CrazyCats-Bot#readme",
   "keywords": [],
   "dependencies": {
+    "bad-words": "^3.0.3",
     "discord.js": "^12.3.1",
     "mongodb": "^3.6.0"
   },

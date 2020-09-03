@@ -2,7 +2,9 @@ import { Client, Collection } from "discord.js";
 import fs from "fs";
 import * as cmd from "./commands/index.js";
 import config from "./config/config.js";
-import { swears } from "./swears.js";
+import BadWordFilter from "bad-words";
+
+const badWordFilter = new BadWordFilter();
 
 const client = new Client();
 client.commands = new Collection();
@@ -36,8 +38,8 @@ client.on("message", (message) => {
     fuckThePolice(message);
   } else if (message.content.includes("leveled up") && message.author.bot) {
     celebrate(message);
-  } else if (swears.some((word) => message.content.includes(word))) {
-    message.reply("OOOOOOO you just said a bad word!!!");
+  } else if (badWordFilter.isProfane(message)) {
+    message.react("💩");
   }
   //breakdown message into command(first word) and args[](remaining words in message)
   const args = message.content.slice(config.prefix.length).trim().split(/ +/);
