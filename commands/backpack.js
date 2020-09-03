@@ -10,7 +10,6 @@ export default {
     console.log(message.author.displayAvatarURL);
 
     let data = [];
-    // data.push(`${message.author.username}'s Backpack`);
     for (let key of Object.keys(backpack)) {
       if (key != "_id" && key != "discordId") {
         data.push({ name: `${key}`, value: `${backpack[key]}`, inline: true });
