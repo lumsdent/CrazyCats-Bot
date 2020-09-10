@@ -6,6 +6,7 @@ const cats = [
   "House Cats",
   "Leopards",
   "Jaguarundis",
+  "Other",
 ];
 
 export default {
@@ -45,16 +46,38 @@ export default {
       channel
         .awaitMessages(filter, { time: 60000, max: 1, errors: ["time"] })
         .then((msg) => {
-          msg.first().react("👋");
-          const selectedRole = guildRoles.find(
-            (role) =>
-              role.name.toLowerCase() === msg.first().content.toLowerCase()
-          );
-          //Welcome and assign user to team/role
-          member.roles.add(selectedRole);
-          channel.send(
-            `Hello! Welcome ${author.username} to the ${selectedRole}.`
-          );
+          if (msg.first().content.toLowerCase() === "other") {
+            channel
+              .send("Please make a suggestion for a new team.")
+              .then(() => {
+                channel
+                  .awaitMessages(
+                    (response) => author.id === response.author.id,
+                    { time: 60000, max: 1, errors: ["time"] }
+                  )
+                  .then((m) => {
+                    const requestChannel = guild.channels.cache.get(
+                      "748267654577651734"
+                    );
+                    requestChannel.send(
+                      `${m.first().author.username} suggested you create a ${
+                        m.first().content
+                      } team`
+                    );
+                  });
+              });
+          } else {
+            msg.first().react("👋");
+            const selectedRole = guildRoles.find(
+              (role) =>
+                role.name.toLowerCase() === msg.first().content.toLowerCase()
+            );
+            //Welcome and assign user to team/role
+            member.roles.add(selectedRole);
+            channel.send(
+              `Hello! Welcome ${author.username} to the ${selectedRole}.`
+            );
+          }
         })
         .catch((error) => {
           console.log(error);
