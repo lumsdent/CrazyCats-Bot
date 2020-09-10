@@ -68,6 +68,7 @@ function embed(author) {
   return new MessageEmbed()
     .setColor("#5F00BA")
     .setAuthor(`${author.username}'s Journey Begins`, author.avatarURL())
+    .setThumbnail(author.avatarURL())
     .setTitle(`Please select a Team: `)
     .setDescription(cats.join(`\n`));
 }
