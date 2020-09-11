@@ -56,6 +56,9 @@ export default {
                     { time: 60000, max: 1, errors: ["time"] }
                   )
                   .then((m) => {
+                    channel.send(
+                      `Your suggestion has been noted over on <#748267654577651734>`
+                    );
                     const requestChannel = guild.channels.cache.get(
                       "748267654577651734"
                     );
