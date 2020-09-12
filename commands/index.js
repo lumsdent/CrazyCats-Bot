@@ -1,5 +1,6 @@
 export { default as add } from "./add.js";
 export { default as backpack } from "./backpack.js";
+export { default as delete } from "./delete.js";
 export { default as fight } from "./fight.js";
 export { default as gather } from "./gather.js";
 export { default as hello } from "./hello.js";

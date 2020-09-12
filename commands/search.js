@@ -5,7 +5,7 @@ import util from "../util.js";
 const { MongoClient } = mongodb;
 export default {
   name: "search",
-  description: "create LoL comp",
+  description: "search LoL comp",
   main: async function (commandMessage, args) {
     const { channel, author, guild, member } = commandMessage;
     let data = [];

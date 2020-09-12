@@ -20,10 +20,13 @@ export default {
     const client = util.getMDBClient();
     try {
       await client.connect();
-      await client
-        .db("cc_sandbox")
-        .collection("league_compositions")
-        .updateOne(comp, { upsert: true });
+      await client.db("cc_sandbox").collection("league_compositions").updateOne(
+        comp,
+        {
+          $set: comp,
+        },
+        { upsert: true }
+      );
     } catch (e) {
       console.error(e);
     } finally {
