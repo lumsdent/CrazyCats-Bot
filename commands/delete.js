@@ -14,11 +14,11 @@ export default {
       const client = util.getMDBClient();
       await client.connect();
       if (isRoleDelete) {
-        deletedCount = await deleteChampionFromRole(args[0], args);
+        deletedCount = await deleteChampionFromRole(client, args[0], args);
       } else if (args[0] === "all") {
-        deletedCount = await deleteChampion(args);
+        deletedCount = await deleteChampion(client, args);
       } else {
-        deletedCount = await deleteFullComp(args);
+        deletedCount = await deleteFullComp(client, args);
       }
       message.channel.send(`Deleted ${deletedCount} Team comp(s)`);
     } catch (e) {
@@ -27,7 +27,7 @@ export default {
       await client.close();
     }
 
-    async function deleteChampionFromRole(argFirst, args) {
+    async function deleteChampionFromRole(client, argFirst, args) {
       const { deletedCount } = await client
         .db("cc_sandbox")
         .collection("league_compositions")
@@ -35,7 +35,7 @@ export default {
       return deletedCount;
     }
 
-    async function deleteChampion(args) {
+    async function deleteChampion(client, args) {
       args.shift();
       let data = [];
       for (const searchParam of args) {
@@ -49,7 +49,7 @@ export default {
       return deletedCount;
     }
 
-    async function deleteFullComp(args) {
+    async function deleteFullComp(client, args) {
       const comp = {
         Top: args[0],
         Jungle: args[1],
