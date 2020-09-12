@@ -6,6 +6,7 @@ const cats = [
   "House Cats",
   "Leopards",
   "Jaguarundis",
+  "Other",
 ];
 
 export default {
@@ -20,10 +21,12 @@ export default {
 
     let memberRoleNames = [];
 
+    //get user's current roles
     for (const role of memberRoles) {
       memberRoleNames.push(role[1].name);
     }
 
+    //Ensure they are not on a team already
     if (
       memberRoleNames.some((role) =>
         cats.some((cat) => cat.toLowerCase() === role.toLowerCase())
@@ -32,33 +35,56 @@ export default {
       return channel.send("You are already on a team");
     }
 
+    //Send list of possible teams/roles
     channel.send(embed(author)).then(() => {
       const filter = (responseMessage) =>
         author.id === responseMessage.author.id &&
-        cats.some((cat) =>
-          responseMessage.content.toLowerCase().includes(cat.toLowerCase())
+        cats.some(
+          (cat) => responseMessage.content.toLowerCase() === cat.toLowerCase()
         );
-
+      //wait for response that matches one of team names
       channel
         .awaitMessages(filter, { time: 60000, max: 1, errors: ["time"] })
-        .then((collectedMessages) => {
-          channel
-            .send(
-              `Hello! Welcome ${author.username} to the ${
-                collectedMessages.first().content
-              }.`
-            )
-            .then((msg) => {
-              msg.react("👋");
-              const selectedRole = guildRoles.find(
-                (role) => role.name === collectedMessages.first().content
-              );
-              member.roles.add(selectedRole);
-            });
+        .then((msg) => {
+          if (msg.first().content.toLowerCase() === "other") {
+            channel
+              .send("Please make a suggestion for a new team.")
+              .then(() => {
+                channel
+                  .awaitMessages(
+                    (response) => author.id === response.author.id,
+                    { time: 60000, max: 1, errors: ["time"] }
+                  )
+                  .then((m) => {
+                    channel.send(
+                      `Your suggestion has been noted over on <#748267654577651734>`
+                    );
+                    const requestChannel = guild.channels.cache.get(
+                      "748267654577651734"
+                    );
+                    requestChannel.send(
+                      `${m.first().author.username} suggested you create a ${
+                        m.first().content
+                      } team`
+                    );
+                  });
+              });
+          } else {
+            msg.first().react("👋");
+            const selectedRole = guildRoles.find(
+              (role) =>
+                role.name.toLowerCase() === msg.first().content.toLowerCase()
+            );
+            //Welcome and assign user to team/role
+            member.roles.add(selectedRole);
+            channel.send(
+              `Hello! Welcome ${author.username} to the ${selectedRole}.`
+            );
+          }
         })
         .catch((error) => {
           console.log(error);
-          channel.send("You did not enter any input!");
+          channel.send("You did not enter a proper value!");
         });
     });
   },
@@ -68,59 +94,7 @@ function embed(author) {
   return new MessageEmbed()
     .setColor("#5F00BA")
     .setAuthor(`${author.username}'s Journey Begins`, author.avatarURL())
+    .setThumbnail(author.avatarURL())
     .setTitle(`Please select a Team: `)
     .setDescription(cats.join(`\n`));
 }
-
-// '748594294830399580' => Role {
-//     guild: Guild {
-//       members: [GuildMemberManager],
-//       channels: [GuildChannelManager],
-//       roles: [RoleManager],
-//       presences: [PresenceManager],
-//       voiceStates: [VoiceStateManager],
-//       deleted: false,
-//       available: true,
-//       id: '702233254186713118',
-//       shardID: 0,
-//       name: 'Crazy Cats',
-//       icon: 'fdead310728134e70ad8577539bc6663',
-//       splash: null,
-//       discoverySplash: null,
-//       region: 'us-east',
-//       memberCount: 12,
-//       large: false,
-//       features: [],
-//       applicationID: null,
-//       afkTimeout: 300,
-//       afkChannelID: null,
-//       systemChannelID: '702233254186713121',
-//       embedEnabled: undefined,
-//       premiumTier: 0,
-//       premiumSubscriptionCount: 0,
-//       verificationLevel: 'NONE',
-//       explicitContentFilter: 'DISABLED',
-//       mfaLevel: 0,
-//       joinedTimestamp: 1598126462275,
-//       defaultMessageNotifications: 'MENTIONS',
-//       systemChannelFlags: [SystemChannelFlags],
-//       vanityURLCode: null,
-//       vanityURLUses: null,
-//       description: null,
-//       banner: null,
-//       rulesChannelID: null,
-//       publicUpdatesChannelID: null,
-//       preferredLocale: 'en-US',
-//       ownerID: '312754952575516672',
-//       emojis: [GuildEmojiManager]
-//     },
-//     id: '748594294830399580',
-//     name: 'Crazy Cats',
-//     color: 10181046,
-//     hoist: true,
-//     rawPosition: 9,
-//     permissions: Permissions { bitfield: 104320577 },
-//     managed: false,
-//     mentionable: true,
-//     deleted: false
-//   },
